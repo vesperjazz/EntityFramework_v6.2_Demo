@@ -59,7 +59,7 @@ namespace EntityFrameworkDemo.Console
                     //    If not exist, EntityFramework will generate SQL scripts based on the POCO models defined by the EFDemoContext. 
                     //    The SQL scripts will then be executed by the SQL intance defined by the connection string.
                     // 2. The Seed method in Configuration.cs will run once to seed the database.
-                    // 3. The query, in this case, get all genders, will then be run.
+                    // 3. The query, in this case, check if any person exists, will then be run.
                     var isDummyDataInserted = await unitOfWork.PersonRepository.AnyAsync();
 
                     if (isDummyDataInserted) { return; }
@@ -240,12 +240,6 @@ namespace EntityFrameworkDemo.Console
                     // This is ORM exclusive, 2 separate queries are sent to the Database.
                     //var personsWithContact = await unitOfWork.PersonRepository
                     //    .GetPersonsWithContactNumbersAsync_ExplicitLoading();
-
-                    unitOfWork.PersonRepository.RemoveRange(personsWithContact);
-
-                    // Notice that PersonContactNumber is dependent on Person,
-                    // a deletion on Person will cascade to PersonContactNumber as well.
-                    await unitOfWork.CompleteAsync();
                 }
             }
         }
